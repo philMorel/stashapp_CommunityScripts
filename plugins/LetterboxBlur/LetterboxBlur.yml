@@ -1,0 +1,16 @@
+name: Letterbox Blur
+description: Replaces video letterbox areas with a blurred version of the video content.
+version: 0.1
+
+ui:
+  requires:
+    - CommunityScriptsUILibrary
+  javascript:
+    - LetterboxBlur.js
+settings:
+  blurStrength:
+    displayName: Blur Strength
+    description: "The intensity of the blur effect. Higher values mean stronger blur. (Default: 15)"
+    type: NUMBER
+
+ 
