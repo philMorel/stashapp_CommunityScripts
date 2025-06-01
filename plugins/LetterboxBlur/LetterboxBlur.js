@@ -102,20 +102,20 @@
     // Initialize WebGL context and shaders
     const initWebGL = (canvas) => {
         try {
-            console.log('Initializing WebGL...');
+            // console.log('Initializing WebGL...');
             gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
             if (!gl) {
                 console.log('WebGL not supported, falling back to Canvas 2D');
                 return false;
             }
 
-            console.log('WebGL context obtained:', gl.getParameter(gl.VERSION));
-            console.log('WebGL renderer:', gl.getParameter(gl.RENDERER));
+            // console.log('WebGL context obtained:', gl.getParameter(gl.VERSION));
+            // console.log('WebGL renderer:', gl.getParameter(gl.RENDERER));
 
             // Enable extensions for better performance
             const ext = gl.getExtension('OES_texture_float');
             if (ext) {
-                console.log('OES_texture_float extension available');
+                // console.log('OES_texture_float extension available');
             }
 
             // Create and compile shaders
@@ -124,7 +124,7 @@
             const fragmentShaderVertical = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderVerticalSource);
             
             if (!vertexShader || !fragmentShaderHorizontal || !fragmentShaderVertical) {
-                console.log('Shader compilation failed, falling back to Canvas 2D');
+                // console.log('Shader compilation failed, falling back to Canvas 2D');
                 return false;
             }
 
@@ -133,7 +133,7 @@
             const programVertical = createProgram(gl, vertexShader, fragmentShaderVertical);
             
             if (!programHorizontal || !programVertical) {
-                console.log('Program creation failed, falling back to Canvas 2D');
+                // console.log('Program creation failed, falling back to Canvas 2D');
                 return false;
             }
             
@@ -150,10 +150,10 @@
             intermediateTexture = gl.createTexture();
             framebuffer = gl.createFramebuffer();
 
-            console.log('WebGL initialized successfully');
+            // console.log('WebGL initialized successfully');
             return true;
         } catch (error) {
-            console.log('WebGL initialization error:', error);
+            // console.log('WebGL initialization error:', error);
             return false;
         }
     };
@@ -164,7 +164,7 @@
         gl.compileShader(shader);
         
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+            // console.error('Shader compile error:', gl.getShaderInfoLog(shader));
             gl.deleteShader(shader);
             return null;
         }
@@ -179,7 +179,7 @@
         gl.linkProgram(program);
         
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error('Program link error:', gl.getProgramInfoLog(program));
+            // console.error('Program link error:', gl.getProgramInfoLog(program));
             gl.deleteProgram(program);
             return null;
         }
@@ -307,7 +307,7 @@
             
             return true;
         } catch (error) {
-            console.error('WebGL rendering error:', error);
+            // console.error('WebGL rendering error:', error);
             return false;
         }
     };
@@ -318,7 +318,7 @@
         const playerContainer = player.el(); // Get the main player DOM element
 
         if (!player || !blurCanvas || !videoElement || !playerContainer) {
-            console.error('updateBackgroundFrame: Required elements not found.');
+            // console.error('updateBackgroundFrame: Required elements not found.');
             stopUpdatingBackground();
             return;
         }
@@ -423,28 +423,28 @@
     };
 
     const startUpdatingBackground = () => {
-        console.log('Attempting to start background update loop.');
+        // console.log('Attempting to start background update loop.');
         if (!animationFrameId && playerInstance) {
-            console.log(`Background update loop not running. Starting ${useWebGL ? 'WebGL' : 'Canvas 2D'} update loop.`);
+            // console.log(`Background update loop not running. Starting ${useWebGL ? 'WebGL' : 'Canvas 2D'} update loop.`);
             frameSkipCounter = 0; // Reset frame skip counter
             animationFrameId = requestAnimationFrame(updateBackgroundFrame);
         } else if (animationFrameId) {
-            console.log('Background update loop already running.');
+            // console.log('Background update loop already running.');
         } else {
-             console.log('Player instance not available, not starting loop.');
+             // console.log('Player instance not available, not starting loop.');
         }
     };
 
     const stopUpdatingBackground = () => {
-        console.log('Attempting to stop background update loop.');
+        // console.log('Attempting to stop background update loop.');
         if (animationFrameId) {
-            console.log('Cancelling animation frame:', animationFrameId);
+            // console.log('Cancelling animation frame:', animationFrameId);
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
             frameSkipCounter = 0; // Reset frame skip counter
-            console.log('Background update loop explicitly stopped.');
+            // console.log('Background update loop explicitly stopped.');
         } else {
-            console.log('Background update loop not running, nothing to stop.');
+            // console.log('Background update loop not running, nothing to stop.');
         }
     };
 
@@ -455,17 +455,17 @@
         const playerWidth = playerContainer.clientWidth;
         const playerHeight = playerContainer.clientHeight;
 
-        console.log(`updateLetterboxVisibility called. Player: ${playerWidth}x${playerHeight}, Video: ${videoWidth}x${videoHeight}. Video readyState: ${videoElement ? videoElement.readyState : 'N/A'}, Player readyState: ${player.readyState()}`);
+        // console.log(`updateLetterboxVisibility called. Player: ${playerWidth}x${playerHeight}, Video: ${videoWidth}x${videoHeight}. Video readyState: ${videoElement ? videoElement.readyState : 'N/A'}, Player readyState: ${player.readyState()}`);
 
         // Clear background if dimensions are zero or not ready
         if (playerWidth === 0 || playerHeight === 0 || videoWidth === 0 || videoHeight === 0 || !videoElement || videoElement.readyState < 1 || player.readyState() < 1) {
-             console.log('updateLetterboxVisibility: Dimensions zero, metadata/data not loaded, or player not ready. Clearing background.');
+             // console.log('updateLetterboxVisibility: Dimensions zero, metadata/data not loaded, or player not ready. Clearing background.');
              playerContainer.style.filter = ''; // Ensure filter is clear
              playerContainer.style.backgroundImage = ''; // Clear background image
              playerContainer.style.backgroundColor = ''; // Clear temporary background color
         } else {
              // Dimensions are valid and video is ready - background handled by updateBackgroundFrame
-             console.log('updateLetterboxVisibility: Dimensions valid and video ready. Background handled by updateBackgroundFrame.');
+             // console.log('updateLetterboxVisibility: Dimensions valid and video ready. Background handled by updateBackgroundFrame.');
              playerContainer.style.backgroundColor = ''; // Remove temporary color if it was set
         }
     };
@@ -504,7 +504,7 @@
                 playerContainer.style.backgroundImage = '';
             }
             
-            console.log('Letterbox blur toggled:', isBlurEnabled ? 'ON' : 'OFF');
+            // console.log('Letterbox blur toggled:', isBlurEnabled ? 'ON' : 'OFF');
         });
 
         return toggleButton;
@@ -545,7 +545,7 @@
     };
 
     const setupLetterboxBlur = async (playerElement) => {
-        console.log('LetterboxBlur plugin initializing for player.');
+        // console.log('LetterboxBlur plugin initializing for player.');
 
         try {
             // Access the player instance directly from the element
@@ -554,12 +554,12 @@
             videoElement = playerInstance.tech().el(); // Get and store the actual video element
             const videoParentNode = videoElement.parentNode; // Get the parent of the video element
 
-            console.log('Player instance obtained.', playerInstance);
-            console.log('Player container obtained.', playerContainer);
-            console.log('Video element obtained.', videoElement);
+            // console.log('Player instance obtained.', playerInstance);
+            // console.log('Player container obtained.', playerContainer);
+            // console.log('Video element obtained.', videoElement);
 
             if (!playerContainer || !videoElement || !videoParentNode) {
-                console.error('Required player elements not found during setup.');
+                // console.error('Required player elements not found during setup.');
                 return;
             }
 
@@ -571,26 +571,26 @@
                 blurCanvas.classList.add('letterbox-blur-canvas');
                 blurCanvas.style.display = 'none'; // Hide the canvas
                 playerContainer.appendChild(blurCanvas);
-                console.log('Created and appended blur canvas to player container.', blurCanvas);
+                // console.log('Created and appended blur canvas to player container.', blurCanvas);
             } else {
-                console.log('Blur canvas element already exists.', blurCanvas);
+                // console.log('Blur canvas element already exists.', blurCanvas);
             }
 
             // Initialize WebGL
             useWebGL = initWebGL(blurCanvas);
             if (useWebGL) {
-                console.log('Using WebGL for GPU-accelerated blur rendering');
+                // console.log('Using WebGL for GPU-accelerated blur rendering');
             } else {
-                console.log('Using Canvas 2D fallback for blur rendering');
+                // console.log('Using Canvas 2D fallback for blur rendering');
             }
             
             // Fetch plugin settings
             try {
                 const fetchedSettings = await csLib.getConfiguration('LetterboxBlur', {});
                 pluginSettings = { ...defaultPluginSettings, ...fetchedSettings };
-                console.log('Plugin settings loaded:', pluginSettings);
+                // console.log('Plugin settings loaded:', pluginSettings);
             } catch (error) {
-                console.error('Error loading plugin settings:', error);
+                // console.error('Error loading plugin settings:', error);
                 pluginSettings = { ...defaultPluginSettings }; // Use default settings on error
             }
 
@@ -611,9 +611,9 @@
                     } else {
                         controlBar.appendChild(button);
                     }
-                    console.log('Letterbox blur toggle button added to control bar');
+                    // console.log('Letterbox blur toggle button added to control bar');
                 } else {
-                    console.error('Control bar not found');
+                    // console.error('Control bar not found');
                 }
             }, 1000);
 
@@ -621,25 +621,25 @@
             videoElement.style.position = 'relative'; // Needs positioning to respect z-index
             videoElement.style.zIndex = '2'; // Position above background
             videoElement.style.objectFit = 'contain'; // Ensure video maintains aspect ratio
-            console.log('Set video element position, z-index, and object-fit.');
+            // console.log('Set video element position, z-index, and object-fit.');
 
             // Ensure player controls are visible above the background and video
             const playerControls = playerContainer.querySelector('.vjs-control-bar');
             if (playerControls) {
                  playerControls.style.zIndex = '3'; // Position above video element
-                 console.log('Set player controls z-index.', playerControls);
+                 // console.log('Set player controls z-index.', playerControls);
             }
              const bigPlayButton = playerContainer.querySelector('.vjs-big-play-button');
              if (bigPlayButton) {
                  bigPlayButton.style.zIndex = '3'; // Position above video element
-                 console.log('Set big play button z-index.', bigPlayButton);
+                 // console.log('Set big play button z-index.', bigPlayButton);
              }
 
             // Use ResizeObserver to detect changes in player container size
             const resizeObserver = new ResizeObserver(entries => {
                 for (let entry of entries) {
                     if (entry.target === playerContainer) {
-                        console.log('Player container resized detected by ResizeObserver.');
+                        // console.log('Player container resized detected by ResizeObserver.');
                         updateLetterboxVisibility(playerInstance);
                     }
                 }
@@ -649,16 +649,16 @@
             resizeObserver.observe(playerContainer);
 
             // Also run initial visibility update
-            console.log('Initial updateLetterboxVisibility call during setup.');
+            // console.log('Initial updateLetterboxVisibility call during setup.');
             updateLetterboxVisibility(playerInstance);
 
             // Call updateLetterboxVisibility when video metadata or data is loaded
             playerInstance.on('loadedmetadata', () => {
-                console.log('Video loadedmetadata event fired.');
+                // console.log('Video loadedmetadata event fired.');
                 updateLetterboxVisibility(playerInstance);
             });
             playerInstance.on('loadeddata', () => {
-                console.log('Video loadeddata event fired.');
+                // console.log('Video loadeddata event fired.');
                 updateLetterboxVisibility(playerInstance);
             });
 
@@ -669,15 +669,15 @@
 
             // Initial background update loop start if video is already playing and ready
             if (videoElement && videoElement.readyState >= 1 && playerInstance.readyState() >= 1 && !playerInstance.paused()) {
-                console.log('Video is already playing and ready, starting background update loop initially.');
+                // console.log('Video is already playing and ready, starting background update loop initially.');
                 startUpdatingBackground();
             } else {
-                 console.log('Video not initially playing or ready, not starting loop initially.');
+                 // console.log('Video not initially playing or ready, not starting loop initially.');
             }
 
-            console.log('LetterboxBlur plugin initialization complete.');
+            // console.log('LetterboxBlur plugin initialization complete.');
         } catch (error) {
-            console.error('Error during LetterboxBlur setup:', error);
+            // console.error('Error during LetterboxBlur setup:', error);
         }
     };
 
