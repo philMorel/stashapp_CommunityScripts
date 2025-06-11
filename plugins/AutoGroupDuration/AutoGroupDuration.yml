@@ -1,0 +1,8 @@
+name: AutoGroupDuration
+version: 0.1
+description: Automatically calculates and displays the total duration of all scenes in a group on the group detail page.
+ui:
+  requires:
+    - CommunityScriptsUILibrary
+  javascript:
+    - AutoGroupDuration.js 
